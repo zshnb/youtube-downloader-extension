@@ -11,6 +11,9 @@ dependencies:
   antd:
     specifier: ^5.16.1
     version: 5.16.1(react-dom@18.2.0)(react@18.2.0)
+  dom-parser:
+    specifier: ^1.1.5
+    version: 1.1.5
   plasmo:
     specifier: 0.85.2
     version: 0.85.2(postcss@8.4.33)(react-dom@18.2.0)(react@18.2.0)
@@ -23,6 +26,9 @@ dependencies:
   tailwindcss:
     specifier: 3.4.1
     version: 3.4.1
+  youtube-transcript:
+    specifier: ^1.1.0
+    version: 1.1.0
 
 devDependencies:
   '@ianvs/prettier-plugin-sort-imports':
@@ -3623,6 +3629,10 @@ packages:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
     dev: false
 
+  /dom-parser@1.1.5:
+    resolution: {integrity: sha512-lCiFG48ZUzGXjKN0qhSkxD/i3ndyV6I37zQ3W2VFYLjF1ob8A+QgSsM7Ps2UT0d3LpJxLMmMHiJJ34z5hkKLiA==}
+    dev: false
+
   /dom-serializer@1.4.1:
     resolution: {integrity: sha512-VHwB3KfrcOOkelEG2ZOfxqLZdfkil8PtJi4P8N2MMXucZq2yLp75ClViUlOVwyoHEDjYU433Aq+5zWP61+RGag==}
     dependencies:
@@ -6656,4 +6666,9 @@ packages:
     resolution: {integrity: sha512-pIXzoImaqmfOrL7teGUBt/T7ZDnyeGBWyXQBvOVhLkWLN37GXv8NMLK406UY6dS51JfcQHsmcW5cJ441bHg6Lg==}
     engines: {node: '>= 14'}
     hasBin: true
+    dev: false
+
+  /youtube-transcript@1.1.0:
+    resolution: {integrity: sha512-q/Sk5DShr9CE1qRGO0KkBPnm7KK/dk7LV/2hZEhRsSWjHYQtCrYR/9JkviY9jziTY6W4hXR4hTUcfhMKOMaMXA==}
+    engines: {node: '>=18.0.0'}
     dev: false
