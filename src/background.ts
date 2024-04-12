@@ -1,6 +1,4 @@
-import type {DownloadMessage, DownloadSubtitleOptions, DownloadThumbnailOptions} from "~types";
-import {YoutubeTranscript} from "youtube-transcript";
-import {fetchSubtitle} from "~util/subtitleUtil";
+import type {DownloadMessage, DownloadSubtitleOptions, DownloadThumbnailOptions, DownloadVideoOptions} from "~types";
 
 chrome.runtime.onMessage.addListener(async (message: DownloadMessage, sender, sendResponse) => {
   const {videoId, target} = message
@@ -16,6 +14,7 @@ chrome.runtime.onMessage.addListener(async (message: DownloadMessage, sender, se
       break
     }
     case "video": {
+      const {quality} = message.options as DownloadVideoOptions
       const response = await fetch('https://co.wuk.sh/api/json', {
         method: 'post',
         headers: {
@@ -24,6 +23,7 @@ chrome.runtime.onMessage.addListener(async (message: DownloadMessage, sender, se
         },
         body: JSON.stringify({
           url: encodeURI(`https://www.youtube.com/watch?v=${videoId}`),
+          vQuality: quality.replace('p', '')
         })
       })
       if (response.ok) {

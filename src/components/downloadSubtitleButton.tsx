@@ -1,5 +1,5 @@
 import {Button} from "antd";
-import {DownloadOutlined} from "@ant-design/icons";
+import {DownloadOutlined, FileWordOutlined} from "@ant-design/icons";
 import type {DownloadMessage} from "~types";
 import {youtubeUtil} from "~util/youtubeUtil";
 import {useState} from "react";
@@ -35,6 +35,6 @@ export default function DownloadSubtitleButton({currentUrl, messageApi}: Downloa
   }
 
   return (
-    <Button icon={<DownloadOutlined/>} onClick={handleDownloadSubtitle} loading={loading}>subtitle</Button>
+    <Button icon={<FileWordOutlined/>} onClick={handleDownloadSubtitle} loading={loading} shape={'circle'} type={'text'}></Button>
   )
 }

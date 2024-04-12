@@ -16,13 +16,13 @@ export default function usePopup() {
       value: 'maxresdefault'
     }
   ]
-  const [thumbnailValue, setThumbnailValue] = useState('default')
+  const [thumbnailResolution, setThumbnailResolution] = useState('default')
   const onThumbnailOptionChange = (event: RadioChangeEvent) => {
-    setThumbnailValue(event.target.value)
+    setThumbnailResolution(event.target.value)
   }
 
   return {
-    thumbnailValue,
+    thumbnailResolution,
     thumbnailResolutionOptions,
     onThumbnailOptionChange
   }

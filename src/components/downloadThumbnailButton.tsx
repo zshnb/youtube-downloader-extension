@@ -1,5 +1,5 @@
 import {Button} from "antd";
-import {DownloadOutlined} from "@ant-design/icons";
+import {PictureOutlined} from "@ant-design/icons";
 import type {DownloadMessage} from "~types";
 import {youtubeUtil} from "~util/youtubeUtil";
 import {useState} from "react";
@@ -8,9 +8,9 @@ import type {MessageInstance} from "antd/es/message/interface";
 export type DownloadThumbnailProps = {
   currentUrl: string
   messageApi: MessageInstance
-  thumbnailValue: string
+  resolution: string
 }
-export default function DownloadThumbnailButton({currentUrl, messageApi, thumbnailValue}: DownloadThumbnailProps) {
+export default function DownloadThumbnailButton({currentUrl, messageApi, resolution}: DownloadThumbnailProps) {
   const {getYouTubeVideoId} = youtubeUtil(currentUrl)
   const [loading, setLoading] = useState<boolean>(false)
   async function handleDownloadThumbnail() {
@@ -19,7 +19,7 @@ export default function DownloadThumbnailButton({currentUrl, messageApi, thumbna
       videoId: getYouTubeVideoId(currentUrl),
       target: 'thumbnail',
       options: {
-        resolution: thumbnailValue
+        resolution: resolution
       }
     } as DownloadMessage)
     console.log(`download thumbnail response: ${response}`)
@@ -31,6 +31,6 @@ export default function DownloadThumbnailButton({currentUrl, messageApi, thumbna
     setLoading(false)
   }
   return (
-    <Button icon={<DownloadOutlined/>} onClick={handleDownloadThumbnail} loading={loading}>thumbnail</Button>
+    <Button icon={<PictureOutlined/>} onClick={handleDownloadThumbnail} loading={loading} shape={'circle'} type={'text'}></Button>
   )
 }

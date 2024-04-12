@@ -1,15 +1,24 @@
 import {useEffect, useMemo, useState} from "react"
-import {Flex, Radio, message, Typography} from "antd";
-import Paragraph from "antd/es/typography/Paragraph";
+import {Flex, message, Typography, Spin} from "antd";
 import '~style.css'
 import usePopup from "~usePopup";
 import DownloadVideoButton from "~components/downloadVideoButton";
 import DownloadThumbnailButton from "~components/downloadThumbnailButton";
 import DownloadSubtitleButton from "~components/downloadSubtitleButton";
+import VideoDownloadList from "~components/VideoDownloadList";
+
+type Metadata = {
+  title: string
+  author_name: string
+  thumbnail_url: string
+}
 
 function IndexPopup() {
   const [messageApi, contextHolder] = message.useMessage();
   const [currentUrl, setCurrentUrl] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [quality, setQuality] = useState("");
+  const [metadata, setMetadata] = useState<Metadata>(undefined);
   useEffect(() => {
     chrome.tabs.query({
       currentWindow: true,
@@ -18,41 +27,68 @@ function IndexPopup() {
       setCurrentUrl(res[0].url)
     })
   }, [])
+  // {
+  //   "title": "What is NVM? How to set up NVM for dummies",
+  //   "author_name": "Codemify",
+  //   "author_url": "https://www.youtube.com/@Codemify",
+  //   "type": "video",
+  //   "height": 113,
+  //   "width": 200,
+  //   "version": "1.0",
+  //   "provider_name": "YouTube",
+  //   "provider_url": "https://www.youtube.com/",
+  //   "thumbnail_height": 360,
+  //   "thumbnail_width": 480,
+  //   "thumbnail_url": "https://i.ytimg.com/vi/EiVHnmW7OK0/hqdefault.jpg",
+  //   "html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/EiVHnmW7OK0?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"What is NVM? How to set up NVM for dummies\"></iframe>"
+  // }
+  useEffect(() => {
+    if (currentUrl) {
+      fetch(`https://www.youtube.com/oembed?url=${currentUrl}&format=json`)
+        .then(res => res.json())
+        .then(res => {
+          console.log(res)
+          setMetadata(res as Metadata)
+        })
+      setTimeout(() => {
+        setLoading(false)
+      }, 500)
+    }
+  }, [currentUrl]);
 
   const isCurrentYoutubeWebsite = useMemo(() => {
-    return /https:\/\/(www.)?youtube\.com\/.*/.test(currentUrl)
+    // return /https:\/\/(www.)?youtube\.com\/.*/.test(currentUrl)
+    return true
   }, [currentUrl])
 
-
-  const {thumbnailValue, thumbnailResolutionOptions, onThumbnailOptionChange} = usePopup()
+  const {thumbnailResolution, thumbnailResolutionOptions, onThumbnailOptionChange} = usePopup()
   return (
     <>
       {contextHolder}
-      <Flex gap='middle' className='min-w-[400px] min-h-[300px] p-4' vertical>
+      <Flex vertical className={'min-w-[400px] min-h-[400px]'}>
         {
-          isCurrentYoutubeWebsite && (
-            <Flex gap='middle' vertical>
-              <Flex gap='small' className='items-center'>
-                <Typography.Text>Thumbnail resolution: </Typography.Text>
-                <Radio.Group options={thumbnailResolutionOptions} onChange={onThumbnailOptionChange} value={thumbnailValue} optionType="button" />
+          metadata && (
+            <>
+              <Flex vertical className={`relative p-12 bg-[50%] rounded-b-xl`}
+                    style={{backgroundImage: `url(${metadata.thumbnail_url && metadata.thumbnail_url})`}}>
+                <Typography.Text className={'text-white'}>{metadata.author_name}</Typography.Text>
+                <Typography.Text
+                  className={'font-bold text-white text-2xl overflow-x-hidden text-ellipsis'}>{metadata.title}</Typography.Text>
+                <Flex
+                  className='justify-center items-center absolute bottom-[-15px] bg-white rounded-2xl left-[10%] shadow w-[80%] p-1'
+                  gap='middle'>
+                  <DownloadVideoButton currentUrl={currentUrl} messageApi={messageApi} quality={quality}/>
+                  <DownloadThumbnailButton currentUrl={currentUrl} messageApi={messageApi}
+                                           resolution={thumbnailResolution}/>
+                  <DownloadSubtitleButton currentUrl={currentUrl} messageApi={messageApi}/>
+                </Flex>
               </Flex>
-            </Flex>
+              <VideoDownloadList className={'mt-4'} currentUrl={currentUrl} messageApi={messageApi}/>
+            </>
           )
         }
-        <Flex gap='middle'>
-          {
-            isCurrentYoutubeWebsite ? (
-              <>
-                <DownloadVideoButton currentUrl={currentUrl} messageApi={messageApi}/>
-                <DownloadThumbnailButton currentUrl={currentUrl} messageApi={messageApi} thumbnailValue={thumbnailValue}/>
-                <DownloadSubtitleButton currentUrl={currentUrl} messageApi={messageApi}/>
-              </>
-            ) : (
-              <Paragraph>No support download</Paragraph>
-            )
-          }
-        </Flex>
       </Flex>
+      <Spin fullscreen spinning={loading}/>
     </>
   )
 }
