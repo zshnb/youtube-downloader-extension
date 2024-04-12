@@ -1,11 +1,10 @@
 import {useEffect, useMemo, useState} from "react"
 import {Flex, message, Typography, Spin, Button} from "antd";
 import '~style.css'
-import DownloadVideoButton from "~components/downloadVideoButton";
-import DownloadSubtitleButton from "~components/downloadSubtitleButton";
 import VideoDownloadList from "~components/VideoDownloadList";
 import ThumbnailDownloadList from "~components/ThumbnailDownloadList";
-import {PictureOutlined} from "@ant-design/icons";
+import {FileWordOutlined, PictureOutlined, VideoCameraOutlined} from "@ant-design/icons";
+import SubtitleDownloadList from "~components/SubtitleDownloadList";
 
 type Metadata = {
   title: string
@@ -13,11 +12,12 @@ type Metadata = {
   thumbnail_url: string
 }
 
+type DownloadType = 'video' | 'thumbnail' | 'subtitle'
 function IndexPopup() {
   const [messageApi, contextHolder] = message.useMessage();
   const [currentUrl, setCurrentUrl] = useState("");
   const [loading, setLoading] = useState(true);
-  const [quality, setQuality] = useState("");
+  const [downloadType, setDownloadType] = useState<DownloadType>('video')
   const [metadata, setMetadata] = useState<Metadata>(undefined);
   useEffect(() => {
     chrome.tabs.query({
@@ -29,28 +29,35 @@ function IndexPopup() {
   }, [])
 
   useEffect(() => {
-    if (currentUrl) {
+    if (currentUrl && isCurrentYoutubeWebsite) {
       fetch(`https://www.youtube.com/oembed?url=${currentUrl}&format=json`)
         .then(res => res.json())
         .then(res => {
           console.log(res)
           setMetadata(res as Metadata)
         })
-      setTimeout(() => {
-        setLoading(false)
-      }, 500)
     }
+    setTimeout(() => {
+      setLoading(false)
+    }, 500)
   }, [currentUrl]);
 
   const isCurrentYoutubeWebsite = useMemo(() => {
-    // return /https:\/\/(www.)?youtube\.com\/.*/.test(currentUrl)
-    return true
+    return /https:\/\/(www.)?youtube\.com\/.*/.test(currentUrl)
   }, [currentUrl])
+
+  const downloadList = useMemo(() => {
+    switch (downloadType) {
+      case "subtitle": return <SubtitleDownloadList currentUrl={currentUrl} messageApi={messageApi}/>
+      case "thumbnail": return <ThumbnailDownloadList thumbnailUrl={metadata.thumbnail_url} currentUrl={currentUrl} messageApi={messageApi}/>
+      case "video": return <VideoDownloadList className={'mt-4'} currentUrl={currentUrl} messageApi={messageApi}/>
+    }
+  }, [downloadType])
 
   return (
     <>
       {contextHolder}
-      <Flex vertical className={'min-w-[400px] min-h-[400px]'}>
+      <Flex vertical className={'min-w-[400px] min-h-[400px] justify-center'}>
         {
           metadata && (
             <>
@@ -62,14 +69,18 @@ function IndexPopup() {
                 <Flex
                   className='justify-center items-center absolute bottom-[-15px] bg-white rounded-2xl left-[10%] shadow w-[80%] p-1'
                   gap='middle'>
-                  <DownloadVideoButton currentUrl={currentUrl} messageApi={messageApi} quality={quality}/>
-                  <Button icon={<PictureOutlined/>} shape={'circle'} type={'text'}></Button>
-                  <DownloadSubtitleButton currentUrl={currentUrl} messageApi={messageApi}/>
+                  <Button icon={<VideoCameraOutlined/>} shape={'circle'} type={'text'} onClick={() => setDownloadType('video')}></Button>
+                  <Button icon={<PictureOutlined/>} shape={'circle'} type={'text'} onClick={() => setDownloadType('thumbnail')}></Button>
+                  <Button icon={<FileWordOutlined/>} shape={'circle'} type={'text'} onClick={() => setDownloadType('subtitle')}></Button>
                 </Flex>
               </Flex>
-              {/*<VideoDownloadList className={'mt-4'} currentUrl={currentUrl} messageApi={messageApi}/>*/}
-              <ThumbnailDownloadList thumbnailUrl={metadata.thumbnail_url} currentUrl={currentUrl} messageApi={messageApi}/>
+              {downloadList}
             </>
+          )
+        }
+        {
+          !isCurrentYoutubeWebsite && (
+            <Typography.Text className={'text-center'}>This page isn't YouTube</Typography.Text>
           )
         }
       </Flex>
