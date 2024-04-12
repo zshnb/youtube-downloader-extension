@@ -1,5 +1,18 @@
 import type {DownloadMessage, DownloadSubtitleOptions, DownloadThumbnailOptions, DownloadVideoOptions} from "~types";
 
+const thumbnailResolutions = [{
+  label: 'max',
+  value: 'maxresdefault'
+}, {
+  label: 'hd',
+  value: 'hqdefault'
+}, {
+  label: 'md',
+  value: 'mqdefault'
+}, {
+  label: 'sd',
+  value: 'sddefault'
+}]
 chrome.runtime.onMessage.addListener(async (message: DownloadMessage, sender, sendResponse) => {
   const {videoId, target} = message
   switch (target) {
@@ -8,7 +21,7 @@ chrome.runtime.onMessage.addListener(async (message: DownloadMessage, sender, se
       const downloadUrl = `https://i.ytimg.com/vi/${videoId}/${options.resolution}.jpg`
       await chrome.downloads.download({
         url: downloadUrl,
-        filename: `thumbnail_hq720_${videoId}.jpg`
+        filename: `thumbnail_${thumbnailResolutions.find(it => it.value === options.resolution).label}_${videoId}.jpg`
       })
       sendResponse('ok')
       break

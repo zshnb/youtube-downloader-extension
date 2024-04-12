@@ -1,11 +1,11 @@
 import {useEffect, useMemo, useState} from "react"
-import {Flex, message, Typography, Spin} from "antd";
+import {Flex, message, Typography, Spin, Button} from "antd";
 import '~style.css'
-import usePopup from "~usePopup";
 import DownloadVideoButton from "~components/downloadVideoButton";
-import DownloadThumbnailButton from "~components/downloadThumbnailButton";
 import DownloadSubtitleButton from "~components/downloadSubtitleButton";
 import VideoDownloadList from "~components/VideoDownloadList";
+import ThumbnailDownloadList from "~components/ThumbnailDownloadList";
+import {PictureOutlined} from "@ant-design/icons";
 
 type Metadata = {
   title: string
@@ -27,21 +27,7 @@ function IndexPopup() {
       setCurrentUrl(res[0].url)
     })
   }, [])
-  // {
-  //   "title": "What is NVM? How to set up NVM for dummies",
-  //   "author_name": "Codemify",
-  //   "author_url": "https://www.youtube.com/@Codemify",
-  //   "type": "video",
-  //   "height": 113,
-  //   "width": 200,
-  //   "version": "1.0",
-  //   "provider_name": "YouTube",
-  //   "provider_url": "https://www.youtube.com/",
-  //   "thumbnail_height": 360,
-  //   "thumbnail_width": 480,
-  //   "thumbnail_url": "https://i.ytimg.com/vi/EiVHnmW7OK0/hqdefault.jpg",
-  //   "html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/EiVHnmW7OK0?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"What is NVM? How to set up NVM for dummies\"></iframe>"
-  // }
+
   useEffect(() => {
     if (currentUrl) {
       fetch(`https://www.youtube.com/oembed?url=${currentUrl}&format=json`)
@@ -61,7 +47,6 @@ function IndexPopup() {
     return true
   }, [currentUrl])
 
-  const {thumbnailResolution, thumbnailResolutionOptions, onThumbnailOptionChange} = usePopup()
   return (
     <>
       {contextHolder}
@@ -78,12 +63,12 @@ function IndexPopup() {
                   className='justify-center items-center absolute bottom-[-15px] bg-white rounded-2xl left-[10%] shadow w-[80%] p-1'
                   gap='middle'>
                   <DownloadVideoButton currentUrl={currentUrl} messageApi={messageApi} quality={quality}/>
-                  <DownloadThumbnailButton currentUrl={currentUrl} messageApi={messageApi}
-                                           resolution={thumbnailResolution}/>
+                  <Button icon={<PictureOutlined/>} shape={'circle'} type={'text'}></Button>
                   <DownloadSubtitleButton currentUrl={currentUrl} messageApi={messageApi}/>
                 </Flex>
               </Flex>
-              <VideoDownloadList className={'mt-4'} currentUrl={currentUrl} messageApi={messageApi}/>
+              {/*<VideoDownloadList className={'mt-4'} currentUrl={currentUrl} messageApi={messageApi}/>*/}
+              <ThumbnailDownloadList thumbnailUrl={metadata.thumbnail_url} currentUrl={currentUrl} messageApi={messageApi}/>
             </>
           )
         }
