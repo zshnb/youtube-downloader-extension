@@ -2,6 +2,7 @@ import {Flex, List, type ListProps, Typography} from "antd";
 import type {DownloadMessage} from "~types";
 import {youtubeUtil} from "~util/youtubeUtil";
 import type {MessageInstance} from "antd/es/message/interface";
+import useDownloadVideo from "~hooks/useDownloadVideo";
 
 export interface VideoDownloadListProps extends ListProps<any> {
   currentUrl: string
@@ -9,22 +10,9 @@ export interface VideoDownloadListProps extends ListProps<any> {
 }
 export default function VideoDownloadList({currentUrl, messageApi, ...props}: VideoDownloadListProps) {
   const items = ['720p', '1080p', '360p', '480p']
-  const {getYouTubeVideoId} = youtubeUtil(currentUrl)
-  async function handleDownloadVideo(quality: string) {
-    const response = await chrome.runtime.sendMessage({
-      videoId: getYouTubeVideoId(currentUrl),
-      target: 'video',
-      options: {
-        quality
-      }
-    } as DownloadMessage)
-    console.log(`download video response: ${response}`)
-    if (!response) {
-      messageApi.error({
-        content: 'download video error, try later.'
-      })
-    }
-  }
+  const {handleDownloadVideo} = useDownloadVideo({
+    currentUrl, messageApi
+  })
   return (
     <List
       {...props}

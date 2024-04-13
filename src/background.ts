@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener(async (message: DownloadMessage, sender, se
         },
         body: JSON.stringify({
           url: encodeURI(`https://www.youtube.com/watch?v=${videoId}`),
-          vQuality: quality.replace('p', '')
+          vQuality: quality ? quality.replace('p', '') : '720'
         })
       })
       if (response.ok) {

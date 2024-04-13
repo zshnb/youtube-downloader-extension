@@ -1,3 +1,5 @@
+import type {MessageInstance} from "antd/es/message/interface";
+
 export type DownloadMessage = {
   videoId: string
   target: 'video' | 'thumbnail' | 'subtitle'
@@ -5,7 +7,7 @@ export type DownloadMessage = {
 }
 
 export type DownloadVideoOptions = {
-  quality: string
+  quality?: string
 }
 
 export type DownloadThumbnailOptions = {
@@ -14,4 +16,9 @@ export type DownloadThumbnailOptions = {
 
 export type DownloadSubtitleOptions = {
   content: string
+}
+
+export type DownloadHooks = {
+  currentUrl: string;
+  messageApi: MessageInstance;
 }

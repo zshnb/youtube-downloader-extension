@@ -10,7 +10,10 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.19.1",
     "@ant-design/icons": "^5.3.6",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.4",
     "antd": "^5.16.1",
     "dom-parser": "^1.1.5",
     "plasmo": "0.85.2",

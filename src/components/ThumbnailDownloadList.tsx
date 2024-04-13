@@ -1,8 +1,7 @@
 import {Button, Flex, Image, Select, Typography} from "antd";
-import {useRef, useState} from "react";
-import {youtubeUtil} from "~util/youtubeUtil";
-import type {DownloadMessage} from "~types";
+import {useRef} from "react";
 import type {MessageInstance} from "antd/es/message/interface";
+import useDownloadThumbnail from "~hooks/useDownloadThumbnail";
 
 export type ThumbnailDownloadListProps = {
   thumbnailUrl: string;
@@ -11,23 +10,9 @@ export type ThumbnailDownloadListProps = {
 }
 export default function ThumbnailDownloadList({thumbnailUrl, currentUrl, messageApi}: ThumbnailDownloadListProps) {
   const resolutionRef = useRef('maxresdefault');
-
-  const {getYouTubeVideoId} = youtubeUtil(currentUrl)
-  async function handleDownloadThumbnail() {
-    const response = await chrome.runtime.sendMessage({
-      videoId: getYouTubeVideoId(currentUrl),
-      target: 'thumbnail',
-      options: {
-        resolution: resolutionRef.current
-      }
-    } as DownloadMessage)
-    console.log(`download thumbnail response: ${response}`)
-    if (!response) {
-      messageApi.error({
-        content: 'download thumbnail error, try later.'
-      })
-    }
-  }
+  const {loading, handleDownloadThumbnail} = useDownloadThumbnail({
+    currentUrl, messageApi
+  })
 
   return (
     <Flex vertical gap={'middle'} className={'items-center mt-10 px-4'}>
@@ -46,7 +31,7 @@ export default function ThumbnailDownloadList({thumbnailUrl, currentUrl, message
         label: 'Standard Quality',
         value: 'sddefault'
       }]} className={'w-[70%] self-start'} onChange={(e) => resolutionRef.current = e}/>
-      <Button className={'self-end'} type={'primary'} onClick={handleDownloadThumbnail}>Download</Button>
+      <Button loading={loading} className={'self-end'} type={'primary'} onClick={handleDownloadThumbnail}>Download</Button>
     </Flex>
   )
 }
