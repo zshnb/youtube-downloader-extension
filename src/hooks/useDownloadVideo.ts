@@ -15,7 +15,12 @@ export default function useDownloadVideo({currentUrl, messageApi}: DownloadHooks
       }
     } as DownloadMessage)
     console.log(`download video response: ${response}`)
-    if (!response) {
+    if (response) {
+      await chrome.downloads.download({
+        url: response,
+        filename: `${getYouTubeVideoId(currentUrl)}_${quality}.mp4`
+      })
+    } else {
       messageApi.error({
         content: 'download video error, try later.'
       })

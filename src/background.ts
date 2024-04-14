@@ -41,10 +41,7 @@ chrome.runtime.onMessage.addListener(async (message: DownloadMessage, sender, se
       })
       if (response.ok) {
         const json = await response.json()
-        await chrome.windows.create({
-          url: json.url
-        })
-        sendResponse('ok')
+        sendResponse(json.url)
       } else {
         sendResponse(undefined)
       }
