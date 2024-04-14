@@ -6,7 +6,8 @@
   "author": "zheng sihua",
   "scripts": {
     "dev": "plasmo dev",
-    "build": "plasmo build",
+    "build:chrome": "plasmo build",
+    "build:firefox": "plasmo build --target=firefox-mv3",
     "package": "plasmo package"
   },
   "dependencies": {

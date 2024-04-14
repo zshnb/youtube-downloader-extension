@@ -13,6 +13,7 @@ type Metadata = {
 }
 
 type DownloadType = 'video' | 'thumbnail' | 'subtitle'
+
 function IndexPopup() {
   const [messageApi, contextHolder] = message.useMessage();
   const [currentUrl, setCurrentUrl] = useState("");
@@ -48,11 +49,15 @@ function IndexPopup() {
 
   const downloadList = useMemo(() => {
     switch (downloadType) {
-      case "subtitle": return <SubtitleDownloadList currentUrl={currentUrl} messageApi={messageApi}/>
-      case "thumbnail": return <ThumbnailDownloadList thumbnailUrl={metadata.thumbnail_url} currentUrl={currentUrl} messageApi={messageApi}/>
-      case "video": return <VideoDownloadList className={'mt-4'} currentUrl={currentUrl} messageApi={messageApi}/>
+      case "subtitle":
+        return <SubtitleDownloadList currentUrl={currentUrl} messageApi={messageApi}/>
+      case "thumbnail":
+        return <ThumbnailDownloadList thumbnailUrl={metadata.thumbnail_url} currentUrl={currentUrl}
+                                      messageApi={messageApi}/>
+      case "video":
+        return <VideoDownloadList className={'mt-4'} currentUrl={currentUrl} messageApi={messageApi}/>
     }
-  }, [downloadType])
+  }, [downloadType, currentUrl])
 
   return (
     <>
@@ -63,15 +68,19 @@ function IndexPopup() {
             <>
               <Flex vertical className={`relative p-12 bg-[50%] rounded-b-xl`}
                     style={{backgroundImage: `url(${metadata.thumbnail_url && metadata.thumbnail_url})`}}>
-                <Typography.Text className={'text-white'}>{metadata.author_name}</Typography.Text>
+                <div className={'w-full h-full bg-[rgb(0,0,0,0.45)] absolute top-0 left-0 z-10 rounded-b-xl'}></div>
+                <Typography.Text className={'text-white z-20'}>{metadata.author_name}</Typography.Text>
                 <Typography.Text
-                  className={'font-bold text-white text-2xl overflow-x-hidden text-ellipsis'}>{metadata.title}</Typography.Text>
+                  className={'font-bold text-white text-2xl overflow-x-hidden text-ellipsis z-20'}>{metadata.title}</Typography.Text>
                 <Flex
                   className='justify-center items-center absolute bottom-[-15px] bg-white rounded-2xl left-[10%] shadow w-[80%] p-1'
                   gap='middle'>
-                  <Button icon={<VideoCameraOutlined/>} shape={'circle'} type={'text'} onClick={() => setDownloadType('video')}></Button>
-                  <Button icon={<PictureOutlined/>} shape={'circle'} type={'text'} onClick={() => setDownloadType('thumbnail')}></Button>
-                  <Button icon={<FileWordOutlined/>} shape={'circle'} type={'text'} onClick={() => setDownloadType('subtitle')}></Button>
+                  <Button icon={<VideoCameraOutlined/>} shape={'circle'} type={'text'}
+                          onClick={() => setDownloadType('video')}></Button>
+                  <Button icon={<PictureOutlined/>} shape={'circle'} type={'text'}
+                          onClick={() => setDownloadType('thumbnail')}></Button>
+                  <Button icon={<FileWordOutlined/>} shape={'circle'} type={'text'}
+                          onClick={() => setDownloadType('subtitle')}></Button>
                 </Flex>
               </Flex>
               {downloadList}
