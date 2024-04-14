@@ -52,14 +52,16 @@ chrome.runtime.onMessage.addListener(async (message: DownloadMessage, sender, se
     }
     case "subtitle": {
       const options = message.options as DownloadSubtitleOptions
-      const blob = new Blob([options.content], {type: 'text/plain'});
+      const suffix = options.type === 'text' ? 'txt' : 'srt'
+      const mime = options.type === 'text' ? 'text/plain' : 'text/srt'
+      const blob = new Blob([options.content], {type: mime});
       const reader = new FileReader();
 
       reader.onload = function() {
         if(reader.result) {
           chrome.downloads.download({
             url: reader.result.toString(),
-            filename: `${videoId}_subtitle.txt`
+            filename: `${videoId}_subtitle.${suffix}`
           });
           sendResponse('ok')
         }

@@ -9,7 +9,6 @@ import {Captions, Image, Video} from "lucide-react";
 import {Storage} from "@plasmohq/storage";
 import {useEffect, useState} from "react";
 import type {Setting} from "~types";
-import is from "@sindresorhus/is";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://www.youtube.com/*"]
@@ -66,7 +65,7 @@ export default function Toolbar() {
           <Flex gap={'middle'}>
             <Button type={'text'} shape={'circle'} icon={<Video/>} onClick={() => handleDownloadVideo()} loading={videoLoading}/>
             <Button type={'text'} shape={'circle'} icon={<Image/>} onClick={handleDownloadThumbnail} loading={thumbnailLoading}/>
-            <Button type={'text'} shape={'circle'} icon={<Captions/>} onClick={handleDownloadSubtitle} loading={subtitleLoading}/>
+            <Button type={'text'} shape={'circle'} icon={<Captions/>} onClick={() => handleDownloadSubtitle('text')} loading={subtitleLoading}/>
           </Flex>
         )
       }

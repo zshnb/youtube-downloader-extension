@@ -1,10 +1,10 @@
 import {useEffect, useMemo, useState} from "react"
-import {Flex, message, Typography, Spin, Button, Image} from "antd";
+import {Flex, message, Typography, Spin, Button } from "antd";
 import '~style.css'
 import VideoDownloadList from "~components/VideoDownloadList";
 import ThumbnailDownloadList from "~components/ThumbnailDownloadList";
 import SubtitleDownloadList from "~components/SubtitleDownloadList";
-import {Captions, Video} from "lucide-react";
+import {Captions, Settings, Video, Image} from "lucide-react";
 
 type Metadata = {
   title: string
@@ -34,7 +34,6 @@ function IndexPopup() {
       fetch(`https://www.youtube.com/oembed?url=${currentUrl}&format=json`)
         .then(res => res.json())
         .then(res => {
-          console.log(res)
           setMetadata(res as Metadata)
         })
     }
@@ -68,6 +67,7 @@ function IndexPopup() {
             <>
               <Flex vertical className={`relative p-12 bg-[50%] rounded-b-xl`}
                     style={{backgroundImage: `url(${metadata.thumbnail_url && metadata.thumbnail_url})`}}>
+                <Button icon={<Settings/>} onClick={() => chrome.runtime.openOptionsPage()} className={'absolute top-2 right-2 z-20'}/>
                 <div className={'w-full h-full bg-[rgb(0,0,0,0.45)] absolute top-0 left-0 z-10 rounded-b-xl'}></div>
                 <Typography.Text className={'text-white z-20'}>{metadata.author_name}</Typography.Text>
                 <Typography.Text

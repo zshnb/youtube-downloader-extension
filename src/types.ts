@@ -16,6 +16,7 @@ export type DownloadThumbnailOptions = {
 
 export type DownloadSubtitleOptions = {
   content: string
+  type: SubtitleType
 }
 
 export type DownloadHooks = {
@@ -27,3 +28,5 @@ export type Setting = {
   showDownloadButton: boolean
   videoFormat: number
 }
+
+export type SubtitleType = 'text' | 'srt'
