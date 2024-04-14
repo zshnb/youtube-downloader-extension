@@ -17,12 +17,18 @@ dependencies:
   '@emotion/react':
     specifier: ^11.11.4
     version: 11.11.4(@types/react@18.2.48)(react@18.2.0)
+  '@plasmohq/storage':
+    specifier: ^1.9.3
+    version: 1.9.3(react@18.2.0)
   antd:
     specifier: ^5.16.1
     version: 5.16.1(react-dom@18.2.0)(react@18.2.0)
   dom-parser:
     specifier: ^1.1.5
     version: 1.1.5
+  lucide-react:
+    specifier: ^0.368.0
+    version: 0.368.0(react@18.2.0)
   plasmo:
     specifier: 0.85.2
     version: 0.85.2(postcss@8.4.33)(react-dom@18.2.0)(react@18.2.0)
@@ -2396,6 +2402,18 @@ packages:
       - velocityjs
       - walrus
       - whiskers
+    dev: false
+
+  /@plasmohq/storage@1.9.3(react@18.2.0):
+    resolution: {integrity: sha512-6fHqDkxX6Mj32+WuyoOzFZ9XOmhf+vfKF6+nxO5POgrYnpIdWuenAtiR5uxmH3nPSDWVgaNvy6DB9MGnw3UrQA==}
+    peerDependencies:
+      react: ^16.8.6 || ^17 || ^18
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      pify: 6.1.0
+      react: 18.2.0
     dev: false
 
   /@pnpm/config.env-replace@1.1.0:
@@ -4837,6 +4855,14 @@ packages:
     dependencies:
       yallist: 4.0.0
 
+  /lucide-react@0.368.0(react@18.2.0):
+    resolution: {integrity: sha512-soryVrCjheZs8rbXKdINw9B8iPi5OajBJZMJ1HORig89ljcOcEokKKAgGbg3QWxSXel7JwHOfDFUdDHAKyUAMw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /m3u8stream@0.8.6:
     resolution: {integrity: sha512-LZj8kIVf9KCphiHmH7sbFQTVe4tOemb202fWwvJwR9W5ENW/1hxJN6ksAWGhQgSBSa3jyWhnjKU1Fw1GaOdbyA==}
     engines: {node: '>=12'}
@@ -5214,6 +5240,11 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /pify@6.1.0:
+    resolution: {integrity: sha512-KocF8ve28eFjjuBKKGvzOBGzG8ew2OqOOSxTTZhirkzH7h3BI1vyzqlR0qbfcDBve1Yzo3FVlWUAtCRrbVN8Fw==}
+    engines: {node: '>=14.16'}
+    dev: false
 
   /pirates@4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}

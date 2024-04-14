@@ -22,3 +22,8 @@ export type DownloadHooks = {
   currentUrl: string;
   messageApi: MessageInstance;
 }
+
+export type Setting = {
+  showDownloadButton: boolean
+  videoFormat: number
+}

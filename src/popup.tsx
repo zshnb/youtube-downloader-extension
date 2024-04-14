@@ -1,10 +1,10 @@
 import {useEffect, useMemo, useState} from "react"
-import {Flex, message, Typography, Spin, Button} from "antd";
+import {Flex, message, Typography, Spin, Button, Image} from "antd";
 import '~style.css'
 import VideoDownloadList from "~components/VideoDownloadList";
 import ThumbnailDownloadList from "~components/ThumbnailDownloadList";
-import {FileWordOutlined, PictureOutlined, VideoCameraOutlined} from "@ant-design/icons";
 import SubtitleDownloadList from "~components/SubtitleDownloadList";
+import {Captions, Video} from "lucide-react";
 
 type Metadata = {
   title: string
@@ -73,13 +73,14 @@ function IndexPopup() {
                 <Typography.Text
                   className={'font-bold text-white text-2xl overflow-x-hidden text-ellipsis z-20'}>{metadata.title}</Typography.Text>
                 <Flex
-                  className='justify-center items-center absolute bottom-[-15px] bg-white rounded-2xl left-[10%] shadow w-[80%] p-1'
-                  gap='middle'>
-                  <Button icon={<VideoCameraOutlined/>} shape={'circle'} type={'text'}
+                  className='justify-center items-center absolute bottom-[-15px] bg-white rounded-2xl left-[10%] shadow w-[80%] p-1 z-20'
+                  gap='middle'
+                >
+                  <Button icon={<Video/>} shape={'circle'} type={'text'}
                           onClick={() => setDownloadType('video')}></Button>
-                  <Button icon={<PictureOutlined/>} shape={'circle'} type={'text'}
+                  <Button icon={<Image/>} shape={'circle'} type={'text'}
                           onClick={() => setDownloadType('thumbnail')}></Button>
-                  <Button icon={<FileWordOutlined/>} shape={'circle'} type={'text'}
+                  <Button icon={<Captions/>} shape={'circle'} type={'text'}
                           onClick={() => setDownloadType('subtitle')}></Button>
                 </Flex>
               </Flex>

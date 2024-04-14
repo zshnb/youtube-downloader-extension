@@ -1,11 +1,15 @@
 import type {PlasmoCSConfig, PlasmoGetInlineAnchor, PlasmoGetShadowHostId, PlasmoMountShadowHost} from "plasmo";
 import {Button, Flex, message} from "antd";
-import {FileWordOutlined, PictureOutlined, VideoCameraOutlined} from "@ant-design/icons";
 import useDownloadSubtitle from "~hooks/useDownloadSubtitle";
 import {StyleProvider} from "@ant-design/cssinjs"
 import antdResetCssText from "data-text:antd/dist/reset.css"
 import useDownloadVideo from "~hooks/useDownloadVideo";
 import useDownloadThumbnail from "~hooks/useDownloadThumbnail";
+import {Captions, Image, Video} from "lucide-react";
+import {Storage} from "@plasmohq/storage";
+import {useEffect, useState} from "react";
+import type {Setting} from "~types";
+import is from "@sindresorhus/is";
 
 export const config: PlasmoCSConfig = {
   matches: ["https://www.youtube.com/*"]
@@ -34,6 +38,7 @@ export const mountShadowHost: PlasmoMountShadowHost = ({
 
 export default function Toolbar() {
   const [messageApi] = message.useMessage();
+  const [showDownloadButton, setShowDownloadButton] = useState(true)
   const {loading: subtitleLoading, handleDownloadSubtitle} = useDownloadSubtitle({
     currentUrl: window.location.href,
     messageApi
@@ -48,13 +53,23 @@ export default function Toolbar() {
     currentUrl: window.location.href,
     messageApi
   })
+  const storage = new Storage()
+  useEffect(() => {
+    storage.get<Setting>('setting').then(setting => {
+      setShowDownloadButton(setting.showDownloadButton)
+    })
+  })
   return (
     <StyleProvider container={document.getElementById(HOST_ID).shadowRoot}>
-      <Flex gap={'middle'}>
-        <Button type={'text'} shape={'circle'} icon={<VideoCameraOutlined/>} onClick={() => handleDownloadVideo()} loading={videoLoading}/>
-        <Button type={'text'} shape={'circle'} icon={<PictureOutlined/>} onClick={handleDownloadThumbnail} loading={thumbnailLoading}/>
-        <Button type={'text'} shape={'circle'} icon={<FileWordOutlined/>} onClick={handleDownloadSubtitle} loading={subtitleLoading}/>
-      </Flex>
+      {
+        showDownloadButton && (
+          <Flex gap={'middle'}>
+            <Button type={'text'} shape={'circle'} icon={<Video/>} onClick={() => handleDownloadVideo()} loading={videoLoading}/>
+            <Button type={'text'} shape={'circle'} icon={<Image/>} onClick={handleDownloadThumbnail} loading={thumbnailLoading}/>
+            <Button type={'text'} shape={'circle'} icon={<Captions/>} onClick={handleDownloadSubtitle} loading={subtitleLoading}/>
+          </Flex>
+        )
+      }
     </StyleProvider>
   )
 }
