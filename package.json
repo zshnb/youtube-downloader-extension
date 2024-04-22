@@ -1,5 +1,5 @@
 {
-  "name": "youtube-downloader",
+  "name": "youtube-downloader-extension",
   "displayName": "Youtube downloader",
   "version": "0.0.1",
   "description": "A extension allow user download youtube video, thumbnail and subtitle on youtube website",

@@ -1,6 +1,4 @@
 import {Flex, List, type ListProps, Typography} from "antd";
-import type {DownloadMessage} from "~types";
-import {youtubeUtil} from "~util/youtubeUtil";
 import type {MessageInstance} from "antd/es/message/interface";
 import useDownloadVideo from "~hooks/useDownloadVideo";
 
