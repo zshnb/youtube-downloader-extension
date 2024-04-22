@@ -5,7 +5,7 @@ import {StyleProvider} from "@ant-design/cssinjs"
 import antdResetCssText from "data-text:antd/dist/reset.css"
 import useDownloadVideo from "~hooks/useDownloadVideo";
 import useDownloadThumbnail from "~hooks/useDownloadThumbnail";
-import {Captions, Image, Video} from "lucide-react";
+import {Captions, Images, Video} from "lucide-react";
 import {Storage} from "@plasmohq/storage";
 import {useEffect, useState} from "react";
 import type {Setting} from "~types";
@@ -62,9 +62,9 @@ export default function Toolbar() {
     <StyleProvider container={document.getElementById(HOST_ID).shadowRoot}>
       {
         showDownloadButton && (
-          <Flex gap={'middle'}>
+          <Flex gap={'middle'} className={'ml-4'} style={{marginLeft: '2rem'}}>
             <Button type={'text'} shape={'circle'} icon={<Video/>} onClick={() => handleDownloadVideo()} loading={videoLoading}/>
-            <Button type={'text'} shape={'circle'} icon={<Image/>} onClick={handleDownloadThumbnail} loading={thumbnailLoading}/>
+            <Button type={'text'} shape={'circle'} icon={<Images size={18}/>} onClick={handleDownloadThumbnail} loading={thumbnailLoading}/>
             <Button type={'text'} shape={'circle'} icon={<Captions/>} onClick={() => handleDownloadSubtitle('text')} loading={subtitleLoading}/>
           </Flex>
         )

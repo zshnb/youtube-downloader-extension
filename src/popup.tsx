@@ -4,7 +4,7 @@ import '~style.css'
 import VideoDownloadList from "~components/VideoDownloadList";
 import ThumbnailDownloadList from "~components/ThumbnailDownloadList";
 import SubtitleDownloadList from "~components/SubtitleDownloadList";
-import {Captions, Settings, Video, Image} from "lucide-react";
+import {Captions, Settings, Video, Images} from "lucide-react";
 
 type Metadata = {
   title: string
@@ -78,7 +78,7 @@ function IndexPopup() {
                 >
                   <Button icon={<Video/>} shape={'circle'} type={'text'}
                           onClick={() => setDownloadType('video')}></Button>
-                  <Button icon={<Image/>} shape={'circle'} type={'text'}
+                  <Button icon={<Images size={18}/>} shape={'circle'} type={'text'}
                           onClick={() => setDownloadType('thumbnail')}></Button>
                   <Button icon={<Captions/>} shape={'circle'} type={'text'}
                           onClick={() => setDownloadType('subtitle')}></Button>

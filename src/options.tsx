@@ -1,6 +1,7 @@
 import {ConfigProvider, Divider, Flex, Form, Radio, Switch, Typography} from "antd";
 import FormItem from "antd/es/form/FormItem";
 import '~style.css'
+// @ts-ignore
 import type {FieldData} from "rc-field-form/lib/interface";
 import {Storage} from "@plasmohq/storage";
 import {useEffect} from "react";

@@ -19,14 +19,17 @@
     "antd": "^5.16.1",
     "dom-parser": "^1.1.5",
     "lucide-react": "^0.368.0",
+    "m3u8stream": "^0.8.6",
+    "miniget": "^4.2.3",
     "plasmo": "0.85.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "sax": "^1.1.3",
     "srt-parser-2": "^1.2.3",
     "tailwindcss": "3.4.1",
+    "timers": "^0.1.1",
     "youtube-transcript": "^1.1.0",
-    "yt_metadata": "^0.0.5",
-    "ytdl-core": "^4.11.5"
+    "yt_metadata": "^0.0.5"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",

@@ -6,3 +6,6 @@
 .ant-spin-fullscreen {
   background-color: black;
 }
+body {
+  margin: 0
+}
